@@ -124,8 +124,7 @@ Please feel free to submit [issues](https://github.com/Ravi879/BudgetManager-Rea
 
 ### Thanks
 
-I'm always happy to hear your feedback!
-Enjoy 🤘
+I'm always happy to hear your feedback! 😊
 
 
 <!-- credits for adding social media icons -->
