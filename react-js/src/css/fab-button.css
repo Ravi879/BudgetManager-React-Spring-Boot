@@ -1,0 +1,13 @@
+.btn-fab-container {
+  position: fixed;
+  right: 40px;
+  bottom: 20px;
+}
+
+.btn-fab {
+  right: 50%;
+  margin-right: -25px;
+  z-index: 9;
+  padding: 10px 16px !important;
+  border-radius: 35px !important;
+}

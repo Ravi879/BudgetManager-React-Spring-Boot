@@ -1,0 +1,11 @@
+.btn-delete-item {
+  content: url('../assets/svg/recycle-bin.svg');
+  max-width: 20px;
+  max-height: 22px;
+}
+
+.btn-edit-item {
+  content: url('../assets/svg/edit.svg');
+  max-height: 20px;
+  max-width: 20px;
+}

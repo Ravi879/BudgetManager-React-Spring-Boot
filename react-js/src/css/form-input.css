@@ -1,0 +1,28 @@
+.input-lg {
+  padding: 15px 12px 15px 12px;
+  border: 1px solid lightgrey !important;
+  border-radius: 2px !important;
+  margin-bottom: 5px;
+  margin-top: 2px ;
+  width: 100%;
+  box-sizing: border-box;
+  color: #2c3e50 !important;
+  font-size: 14px !important;
+  letter-spacing: 1px !important;
+}
+
+.input-lg::placeholder {
+  color: #bdbdbd !important;
+  opacity: 1 !important;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.input-lg:focus,
+textarea:focus {
+  -moz-box-shadow: none!important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  border: 1px solid #171820 !important;
+  outline-width: 0;
+}

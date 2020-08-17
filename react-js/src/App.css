@@ -1,0 +1,111 @@
+.dark-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  min-height: 95vh;
+  padding-top: 140px;
+}
+
+.text-h1 {
+  font-size: 40px;
+  color: #fff;
+}
+
+.sub-text {
+  font-size: 16px;
+}
+
+.text-h2 {
+  font-size: 30px;
+}
+
+.text-sm {
+  font-size: 14px !important;
+}
+
+@media (max-width: 467px) {
+  .sub-text {
+    font-size: 16px;
+  }
+  .dark-overlay {
+    padding-top: 110px;
+  }
+  .dark-overlay-container {
+    background: url('./assets/img/home_xs.png') no-repeat;
+  }
+}
+
+/* Extra Small devices (small, up to 468px) */
+@media (min-width: 468px) {
+  .sub-text {
+    font-size: 16px;
+  }
+  .dark-overlay {
+    padding-top: 110px;
+  }
+
+  .dark-overlay-container {
+    background: url('./assets/img/home_sm.png') no-repeat;
+  }
+}
+
+/* Small devices (mobile, 576px and up) */
+@media (min-width: 576px) {
+  .text-h1 {
+    font-size: 50px;
+  }
+  .text-h2 {
+    font-size: 40px;
+  }
+  .sub-text {
+    font-size: 17px;
+  }
+  .dark-overlay {
+    padding-top: 110px;
+  }
+  .dark-overlay-container {
+    background: url('./assets/img/home_md.png') no-repeat;
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+
+@media (min-width: 768px) {
+  .text-h1 {
+    font-size: 60px;
+  }
+  .text-h2 {
+    font-size: 45px;
+  }
+  .sub-text {
+    font-size: 18px;
+  }
+  .dark-overlay {
+    padding-top: 140px;
+  }
+  .dark-overlay-container {
+    background: url('./assets/img/home_lg.png') no-repeat;
+  }
+}
+
+/* Large  devices (desktop, 992px and up) */
+@media (min-width: 992px) {
+  .text-h1 {
+    font-size: 60px;
+  }
+  .text-h2 {
+    font-size: 45px;
+  }
+  .sub-text {
+    font-size: 21px;
+  }
+  .dark-overlay-container {
+    background: url('./assets/img/home_xl.png') no-repeat;
+  }
+}
+
+/* must be after media queries */
+.dark-overlay-container {
+  background-size: cover;
+  background-attachment: fixed;
+  height: 100%;
+  align-content: center;
+}
