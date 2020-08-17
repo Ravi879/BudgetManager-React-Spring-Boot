@@ -107,12 +107,27 @@ Please feel free to submit [issues](https://github.com/Ravi879/BudgetManager-Rea
 
 ## Author
 
-- Ravi Gadhiya
-[https://github.com/Ravi879](https://github.com/Ravi879)
-[https://www.linkedin.com/in/gadhiyaravi](https://www.linkedin.com/in/gadhiyaravi)
-[gadhiyara@gmail.com](mail:gadhiyara@gmail.com)
+- Ravi Gadhiya <br/>
+
+[![alt text][1.1]][1]
+[![alt text][2.1]][2]
+[![alt text][3.1]][3]
+
+[1.1]: https://github.com/paulrobertlloyd/socialmediaicons/blob/main/linkedin-24x24.png (LinkedIn)
+[2.1]: https://github.com/paulrobertlloyd/socialmediaicons/blob/main/github-24x24.png (Github)
+[3.1]: https://github.com/paulrobertlloyd/socialmediaicons/blob/main/email-24x24.png (Email)
+
+[1]: https://www.linkedin.com/in/gadhiyaravi
+[2]: https://github.com/Ravi879
+[3]: mailto:gadhiyara@gmail.com
+
 
 ### Thanks
 
 I'm always happy to hear your feedback!
 Enjoy 🤘
+
+
+<!-- credits for adding social media icons -->
+<!-- Grab your social icons from https://github.com/carlsednaoui/gitsocial -->
+<!-- socialmediaicons https://github.com/paulrobertlloyd/socialmediaicons -->
