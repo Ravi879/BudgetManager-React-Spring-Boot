@@ -41,7 +41,7 @@ This is a simple web application to track daily incomes and expenses, where user
 ## Prerequisites
 
 * Maven
-* node package manager(npm)
+* Node package manager(npm)
 * MySQL Workbench ([click here for download](https://dev.mysql.com/downloads/workbench/))
 
 ## Open and Run Project
