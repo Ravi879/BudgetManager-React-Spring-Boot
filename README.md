@@ -67,6 +67,7 @@ This is a simple web application to track daily incomes and expenses, where user
 > **Secure Route**: /api/items/**
 
 **1. API Description for User related action**
+<br />
 base = /api
 
 METHOD | PATH | DESCRIPTION
@@ -78,6 +79,7 @@ POST | /request-password-reset | sending password reset link to registered email
 POST | /password-reset | reset the password
 
 **2. API Description for Item(Income or Expense)**
+<br />
 base = /api/items
 
 METHOD | PATH | DESCRIPTION
