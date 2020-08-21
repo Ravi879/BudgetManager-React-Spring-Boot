@@ -77,13 +77,13 @@ public class ItemServiceImpl implements ItemService {
         // get item by user id -> update item -> save back to database
         if (itemCategory == ItemCategory.INCOME) {
             IncomeEntity incomeEntity = incomeRepo.findByItemId(itemDto.getItemId()).orElseThrow(() -> {
-                throw new ResourceNotFoundException("Invalid item id.");
+                throw new ResourceNotFoundException("invalid.itemid");
             });
             updateItem(incomeEntity, itemDto);
             updatedItemEntity = incomeRepo.save(incomeEntity);
         } else {
             ExpenseEntity expenseEntity = expenseRepo.findByItemId(itemDto.getItemId()).orElseThrow(() -> {
-                throw new ResourceNotFoundException("Invalid item id.");
+                throw new ResourceNotFoundException("invalid.itemid");
             });
             updateItem(expenseEntity, itemDto);
             updatedItemEntity = expenseRepo.save(expenseEntity);
@@ -97,12 +97,12 @@ public class ItemServiceImpl implements ItemService {
         // get item by user id -> delete item if found Or else throw exception
         if (itemCategory == ItemCategory.INCOME) {
             IncomeEntity incomeEntity = incomeRepo.findByItemId(itemId).orElseThrow(() -> {
-                throw new ResourceNotFoundException("Invalid item id.");
+                throw new ResourceNotFoundException("invalid.itemid");
             });
             incomeRepo.delete(incomeEntity);
         } else {
             ExpenseEntity expenseEntity = expenseRepo.findByItemId(itemId).orElseThrow(() -> {
-                throw new ResourceNotFoundException("Invalid item id.");
+                throw new ResourceNotFoundException("invalid.itemid");
             });
             expenseRepo.delete(expenseEntity);
         }
@@ -119,7 +119,7 @@ public class ItemServiceImpl implements ItemService {
 
         return userRepo.findByUserId(userId)
                 .orElseThrow(() -> {
-                    throw new ResourceNotFoundException("Invalid user id.");
+                    throw new ResourceNotFoundException("invalid.itemid");
                 });
 
     }

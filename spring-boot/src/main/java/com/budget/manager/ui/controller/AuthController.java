@@ -53,8 +53,9 @@ public class AuthController {
     public ResponseEntity<?> createAuthenticationToken(@RequestBody @Valid UserLogin userLogin) throws BadCredentialsException {
         // check if email address verify or not
         UserDto userDto = authService.getUserByEmail(userLogin.getEmail());
-        if (!userDto.getEmailVerificationStatus())
-            throw new EmailNotVerifiedException("Email address has not been verified!!");
+        if (!userDto.getEmailVerificationStatus()) {
+            throw new EmailNotVerifiedException("email.not.verified");
+        }
         // authenticate user
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 userLogin.getEmail(),

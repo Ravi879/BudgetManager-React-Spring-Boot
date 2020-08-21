@@ -41,7 +41,7 @@ public class AuthServiceImpl implements AuthService {
     public UserDto createUser(UserDto userDto) {
         //check id email address already register
         if (userRepository.findByEmail(userDto.getEmail()).isPresent())
-            throw new ResourceAlreadyExistsException("Email address is already registered.");
+            throw new ResourceAlreadyExistsException("email.not.found");
 
         // populate dto properties before inserting to database
         userDto.setUserId(RandomStringUtils.random(10, true, true));
@@ -59,7 +59,7 @@ public class AuthServiceImpl implements AuthService {
         return userRepository.findByEmail(email)
                 .map(userEntity -> mapper.map(userEntity, UserDto.class))
                 .orElseThrow(() -> {
-                    throw new ResourceNotFoundException("Email address is not registered.");
+                    throw new ResourceNotFoundException("email.not.found");
                 });
     }
 
@@ -68,7 +68,7 @@ public class AuthServiceImpl implements AuthService {
         return userRepository.findByUserId(userId)
                 .map(userEntity -> mapper.map(userEntity, UserDto.class))
                 .orElseThrow(() -> {
-                    throw new ResourceNotFoundException("Invalid user id.");
+                    throw new ResourceNotFoundException("invalid.userid");
                 });
     }
 
@@ -77,11 +77,11 @@ public class AuthServiceImpl implements AuthService {
         // Find user by token
         UserEntity userEntity = userRepository.findUserByEmailVerificationToken(token)
                 .orElseThrow(() -> {
-                    throw new InvalidTokenException("Invalid verification link.");
+                    throw new InvalidTokenException("invalid.token");
                 });
         // check for token expiration
         if (jwtUtils.isTokenExpired(token))
-            throw new InvalidTokenException("Verification link has been expired");
+            throw new InvalidTokenException("email.verification.token.expired");
 
         userEntity.setEmailVerificationToken(null);
         userEntity.setEmailVerificationStatus(Boolean.TRUE);
@@ -110,12 +110,12 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void resetPassword(String token, String password) {
         if (jwtUtils.isTokenExpired(token)) {
-            throw new InvalidTokenException("Your reset password link has been expired. Please issue new reset password request.");
+            throw new InvalidTokenException("reset.password.token.expired");
         }
 
         PasswordResetTokenEntity passwordResetTokenEntity = passwordTokenRepository.findByToken(token)
                 .orElseThrow(() -> {
-                    throw new InvalidTokenException("Invalid link.");
+                    throw new InvalidTokenException("invalid.token");
                 });
 
         // encode new password

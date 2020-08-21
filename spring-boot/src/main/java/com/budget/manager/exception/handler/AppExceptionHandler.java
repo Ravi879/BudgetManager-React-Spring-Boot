@@ -22,10 +22,10 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 import static com.budget.manager.shared.type.Errors.*;
+import static com.budget.manager.shared.utils.MsgSrcUtils.getMessage;
 
 @RestControllerAdvice
 public class AppExceptionHandler extends ResponseEntityExceptionHandler {
@@ -40,7 +40,7 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ErrorMessage> handleAllExceptions(Exception ex, HttpServletRequest request) {
 
         ErrorMessage errorMessage = new ErrorMessage(
-                "Internal Server Error occurred.", ExceptionUtils.getRootCauseMessage(ex),
+                getMessage(messageSource, "server.error"), ExceptionUtils.getRootCauseMessage(ex),
                 HttpStatus.INTERNAL_SERVER_ERROR.value(), request.getRequestURI());
         ex.printStackTrace();
 
@@ -51,7 +51,7 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ErrorMessage> handleResourceNotFoundException(ResourceNotFoundException ex, HttpServletRequest request) {
 
         ErrorMessage errorMessage = new ErrorMessage(
-                ex.getMessage(), RESOURCE_NOT_FOUND,
+                getMessage(messageSource, ex.getMessageCode()), RESOURCE_NOT_FOUND,
                 HttpStatus.NOT_FOUND.value(), request.getRequestURI());
 
         return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.NOT_FOUND);
@@ -61,7 +61,7 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ErrorMessage> handleBadCredentialsException(BadCredentialsException ex, HttpServletRequest request) {
 
         ErrorMessage errorMessage = new ErrorMessage(
-                "Invalid email address or password", BAD_CREDENTIALS,
+                getMessage(messageSource, "bad.credentials"), BAD_CREDENTIALS,
                 HttpStatus.UNAUTHORIZED.value(), request.getRequestURI());
 
         return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.UNAUTHORIZED);
@@ -71,7 +71,7 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ErrorMessage> handleResourceAlreadyExistsException(ResourceAlreadyExistsException ex, HttpServletRequest request) {
 
         ErrorMessage errorMessage = new ErrorMessage(
-                ex.getMessage(), RESOURCE_ALREADY_EXISTS,
+                getMessage(messageSource, ex.getMessageCode()), RESOURCE_ALREADY_EXISTS,
                 HttpStatus.CONFLICT.value(), request.getRequestURI());
 
         return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.CONFLICT);
@@ -81,7 +81,7 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ErrorMessage> handleEmailNotVerifiedException(EmailNotVerifiedException ex, HttpServletRequest request) {
 
         ErrorMessage errorMessage = new ErrorMessage(
-                ex.getMessage(), EMAIL_NOT_VERIFIED,
+                getMessage(messageSource, ex.getMessageCode()), EMAIL_NOT_VERIFIED,
                 HttpStatus.CONFLICT.value(), request.getRequestURI());
 
         return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.NOT_ACCEPTABLE);
@@ -90,7 +90,7 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(InvalidTokenException.class)
     public ResponseEntity<ErrorMessage> handleInvalidTokenException(InvalidTokenException ex, HttpServletRequest request) {
         ErrorMessage errorMessage = new ErrorMessage(
-                ex.getMessage(), INVALID_TOKEN,
+                getMessage(messageSource, ex.getMessageCode()), INVALID_TOKEN,
                 HttpStatus.CONFLICT.value(), request.getRequestURI());
 
         return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.NOT_ACCEPTABLE);
@@ -107,7 +107,7 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
                 .stream()
                 .map(fieldError -> {
                     String messageCode = fieldError.getDefaultMessage() != null ? fieldError.getDefaultMessage() : fieldError.getField();
-                    return messageSource.getMessage(messageCode, null, Locale.ENGLISH);
+                    return getMessage(messageSource, messageCode);
                 })
                 .sorted()
                 .collect(Collectors.toList());
@@ -126,7 +126,7 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
                 .stream()
                 .map(constraint -> {
                     String messageCode = constraint.getMessage();
-                    return messageSource.getMessage(messageCode, null, Locale.ENGLISH);
+                    return getMessage(messageSource, messageCode);
                 })
                 .sorted()
                 .collect(Collectors.toList());
