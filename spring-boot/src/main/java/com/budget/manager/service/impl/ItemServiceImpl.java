@@ -18,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -78,12 +79,12 @@ public class ItemServiceImpl implements ItemService {
         // get item by user id -> update item -> save back to database
         if (itemCategory == ItemCategory.INCOME) {
             IncomeEntity incomeEntity = incomeRepo.findByItemId(itemDto.getItemId())
-                    .orElseThrow(getInvalidIdException());
+                    .orElseThrow(getInvalidIdException(itemDto.getItemId()));
             updateItem(incomeEntity, itemDto);
             updatedItemEntity = incomeRepo.save(incomeEntity);
         } else {
             ExpenseEntity expenseEntity = expenseRepo.findByItemId(itemDto.getItemId())
-                    .orElseThrow(getInvalidIdException());
+                    .orElseThrow(getInvalidIdException(itemDto.getItemId()));
             updateItem(expenseEntity, itemDto);
             updatedItemEntity = expenseRepo.save(expenseEntity);
         }
@@ -96,11 +97,11 @@ public class ItemServiceImpl implements ItemService {
         // get item by user id -> delete item if found Or else throw exception
         if (itemCategory == ItemCategory.INCOME) {
             IncomeEntity incomeEntity = incomeRepo.findByItemId(itemId)
-                    .orElseThrow(getInvalidIdException());
+                    .orElseThrow(getInvalidIdException(itemId));
             incomeRepo.delete(incomeEntity);
         } else {
             ExpenseEntity expenseEntity = expenseRepo.findByItemId(itemId)
-                    .orElseThrow(getInvalidIdException());
+                    .orElseThrow(getInvalidIdException(itemId));
             expenseRepo.delete(expenseEntity);
         }
     }
@@ -115,13 +116,14 @@ public class ItemServiceImpl implements ItemService {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return userRepo.findByUserId(userId)
                 .orElseThrow(() -> {
-                    throw new ResourceNotFoundException("invalid.itemid");
+                    throw new ResourceNotFoundException("invalid.userid", "userid=" + userId);
                 });
     }
 
-    private Supplier<RuntimeException> getInvalidIdException() {
+    private Supplier<RuntimeException> getInvalidIdException(String itemId) {
         return () -> {
-            throw new ResourceNotFoundException("invalid.itemid");
+            String errorMsg = MessageFormat.format("itemid={0} userid={1}", itemId, getUserEntity().getUserId());
+            throw new ResourceNotFoundException("invalid.itemid", errorMsg);
         };
     }
 

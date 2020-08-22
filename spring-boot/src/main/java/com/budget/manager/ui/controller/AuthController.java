@@ -25,6 +25,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 @RestController
@@ -54,7 +55,8 @@ public class AuthController {
         // check if email address verify or not
         UserDto userDto = authService.getUserByEmail(userLogin.getEmail());
         if (!userDto.getEmailVerificationStatus()) {
-            throw new EmailNotVerifiedException("email.not.verified");
+            String errorMsg = MessageFormat.format("email={0} userid={1}", userDto.getEmail(), userDto.getUserId());
+            throw new EmailNotVerifiedException("email.not.verified", errorMsg);
         }
         // authenticate user
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
