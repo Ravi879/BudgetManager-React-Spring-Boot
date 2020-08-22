@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.function.Supplier;
 
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -76,15 +77,13 @@ public class ItemServiceImpl implements ItemService {
         ItemEntity updatedItemEntity;
         // get item by user id -> update item -> save back to database
         if (itemCategory == ItemCategory.INCOME) {
-            IncomeEntity incomeEntity = incomeRepo.findByItemId(itemDto.getItemId()).orElseThrow(() -> {
-                throw new ResourceNotFoundException("invalid.itemid");
-            });
+            IncomeEntity incomeEntity = incomeRepo.findByItemId(itemDto.getItemId())
+                    .orElseThrow(getInvalidIdException());
             updateItem(incomeEntity, itemDto);
             updatedItemEntity = incomeRepo.save(incomeEntity);
         } else {
-            ExpenseEntity expenseEntity = expenseRepo.findByItemId(itemDto.getItemId()).orElseThrow(() -> {
-                throw new ResourceNotFoundException("invalid.itemid");
-            });
+            ExpenseEntity expenseEntity = expenseRepo.findByItemId(itemDto.getItemId())
+                    .orElseThrow(getInvalidIdException());
             updateItem(expenseEntity, itemDto);
             updatedItemEntity = expenseRepo.save(expenseEntity);
         }
@@ -96,14 +95,12 @@ public class ItemServiceImpl implements ItemService {
     public void deleteItem(ItemCategory itemCategory, String itemId) {
         // get item by user id -> delete item if found Or else throw exception
         if (itemCategory == ItemCategory.INCOME) {
-            IncomeEntity incomeEntity = incomeRepo.findByItemId(itemId).orElseThrow(() -> {
-                throw new ResourceNotFoundException("invalid.itemid");
-            });
+            IncomeEntity incomeEntity = incomeRepo.findByItemId(itemId)
+                    .orElseThrow(getInvalidIdException());
             incomeRepo.delete(incomeEntity);
         } else {
-            ExpenseEntity expenseEntity = expenseRepo.findByItemId(itemId).orElseThrow(() -> {
-                throw new ResourceNotFoundException("invalid.itemid");
-            });
+            ExpenseEntity expenseEntity = expenseRepo.findByItemId(itemId)
+                    .orElseThrow(getInvalidIdException());
             expenseRepo.delete(expenseEntity);
         }
     }
@@ -116,12 +113,16 @@ public class ItemServiceImpl implements ItemService {
 
     private UserEntity getUserEntity() {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
         return userRepo.findByUserId(userId)
                 .orElseThrow(() -> {
                     throw new ResourceNotFoundException("invalid.itemid");
                 });
+    }
 
+    private Supplier<RuntimeException> getInvalidIdException() {
+        return () -> {
+            throw new ResourceNotFoundException("invalid.itemid");
+        };
     }
 
 }
