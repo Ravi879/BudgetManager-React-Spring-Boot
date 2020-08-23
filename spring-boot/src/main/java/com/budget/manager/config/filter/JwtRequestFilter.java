@@ -1,4 +1,4 @@
-package com.budget.manager.config;
+package com.budget.manager.config.filter;
 
 import com.budget.manager.service.AuthService;
 import com.budget.manager.shared.dto.UserDto;
