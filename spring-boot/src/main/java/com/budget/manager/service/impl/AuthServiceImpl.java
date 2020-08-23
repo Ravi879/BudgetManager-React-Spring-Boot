@@ -41,7 +41,7 @@ public class AuthServiceImpl implements AuthService {
     public UserDto createUser(UserDto userDto) {
         //check id email address already register
         if (userRepository.findByEmail(userDto.getEmail()).isPresent())
-            throw new ResourceAlreadyExistsException("email.not.found", "email=" + userDto.getEmail());
+            throw new ResourceAlreadyExistsException("email.registered", "email=" + userDto.getEmail());
 
         // populate dto properties before inserting to database
         userDto.setUserId(RandomStringUtils.random(10, true, true));
