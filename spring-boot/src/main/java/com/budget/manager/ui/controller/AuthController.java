@@ -11,6 +11,7 @@ import com.budget.manager.ui.modal.request.UserLogin;
 import com.budget.manager.ui.modal.request.UserRequest;
 import com.budget.manager.ui.modal.response.UserLoginResponse;
 import com.budget.manager.ui.modal.response.UserResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 @RestController
 @RequestMapping("/api")
 @Validated
+@Slf4j
 public class AuthController {
 
     private final ModelMapper modelMapper;
@@ -64,6 +66,9 @@ public class AuthController {
                 userLogin.getPassword(),
                 new ArrayList<>()
         ));
+
+        log.info("UserLogin -- login.user -- userId={}", userDto.getUserId());
+
         //send jwt token back to user
         String jwtToken = jwtTokenUtil.generateToken(userDto.getUserId());
         return ResponseEntity.ok(new UserLoginResponse(jwtToken));
@@ -76,6 +81,9 @@ public class AuthController {
         UserDto storedUserDetails = authService.createUser(userDto);
         //send verification email
         emailService.sendEmailVerificationEmail(userDto, getAppBaseUrl());
+
+        log.info("UserRegister -- create.user -- userId={}", storedUserDetails.getUserId());
+
         //send stored user details as response
         UserResponse returnValue = modelMapper.map(storedUserDetails, UserResponse.class);
         return new ResponseEntity<>(returnValue, HttpStatus.CREATED);
@@ -103,6 +111,7 @@ public class AuthController {
         // send email
         emailService.sendPasswordResetEmail(userDto, token);
 
+        log.info("RequestPasswordReset -- request.pwd.rst -- userId={}", userDto.getUserId());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

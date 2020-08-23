@@ -10,6 +10,7 @@ import com.budget.manager.repository.entity.UserEntity;
 import com.budget.manager.service.AuthService;
 import com.budget.manager.shared.dto.UserDto;
 import com.budget.manager.shared.utils.JwtUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.User;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
 @Service
+@Slf4j
 public class AuthServiceImpl implements AuthService {
 
     private final ModelMapper mapper;
@@ -85,6 +87,9 @@ public class AuthServiceImpl implements AuthService {
 
         userEntity.setEmailVerificationToken(null);
         userEntity.setEmailVerificationStatus(Boolean.TRUE);
+
+        log.info("UserVerify -- user.verify -- userId={}", userEntity.getUserId());
+
         userRepository.save(userEntity);
     }
 
@@ -128,6 +133,8 @@ public class AuthServiceImpl implements AuthService {
 
         // Remove Password Reset token from database
         passwordTokenRepository.delete(passwordResetTokenEntity);
+
+        log.info("PasswordReset -- pwd.rst -- userId={}", userEntity.getUserId());
     }
 
 
