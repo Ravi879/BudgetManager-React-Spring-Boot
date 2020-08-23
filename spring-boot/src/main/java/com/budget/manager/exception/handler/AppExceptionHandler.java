@@ -47,16 +47,6 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(value = ResourceNotFoundException.class)
-    public ResponseEntity<ErrorMessage> handleResourceNotFoundException(ResourceNotFoundException ex, HttpServletRequest request) {
-
-        ErrorMessage errorMessage = new ErrorMessage(
-                getMessage(messageSource, ex.getMessageCode()), RESOURCE_NOT_FOUND,
-                HttpStatus.NOT_FOUND.value(), request.getRequestURI());
-
-        return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.NOT_FOUND);
-    }
-
     @ExceptionHandler(value = BadCredentialsException.class)
     public ResponseEntity<ErrorMessage> handleBadCredentialsException(BadCredentialsException ex, HttpServletRequest request) {
 
@@ -65,6 +55,16 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
                 HttpStatus.UNAUTHORIZED.value(), request.getRequestURI());
 
         return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(value = ResourceNotFoundException.class)
+    public ResponseEntity<ErrorMessage> handleResourceNotFoundException(ResourceNotFoundException ex, HttpServletRequest request) {
+
+        ErrorMessage errorMessage = new ErrorMessage(
+                getMessage(messageSource, ex.getMessageCode()), RESOURCE_NOT_FOUND,
+                HttpStatus.NOT_FOUND.value(), request.getRequestURI());
+
+        return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(value = ResourceAlreadyExistsException.class)
