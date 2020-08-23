@@ -1,6 +1,7 @@
 package com.budget.manager.config;
 
 import com.budget.manager.config.filter.JwtRequestFilter;
+import com.budget.manager.config.filter.MdcFilter;
 import com.budget.manager.service.AuthService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,11 +27,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final AuthService authService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JwtRequestFilter jwtRequestFilter;
+    private final MdcFilter mdcFilter;
 
-    public SecurityConfig(AuthService authService, BCryptPasswordEncoder bCryptPasswordEncoder, JwtRequestFilter jwtRequestFilter) {
+    public SecurityConfig(AuthService authService, BCryptPasswordEncoder bCryptPasswordEncoder, JwtRequestFilter jwtRequestFilter, MdcFilter mdcFilter) {
         this.authService = authService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.jwtRequestFilter = jwtRequestFilter;
+        this.mdcFilter = mdcFilter;
     }
 
     @Override
@@ -50,6 +53,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         // add filter for authenticate incoming request
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        // add filter for logging custom word in logback pattern
+        http.addFilterBefore(mdcFilter, JwtRequestFilter.class);
     }
 
     // set UserDetailsService implementation and password encryption strategy
