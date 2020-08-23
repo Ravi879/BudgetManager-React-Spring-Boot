@@ -68,7 +68,7 @@ public class AuthServiceImpl implements AuthService {
         return userRepository.findByUserId(userId)
                 .map(userEntity -> mapper.map(userEntity, UserDto.class))
                 .orElseThrow(() -> {
-                    throw new ResourceNotFoundException("invalid.userid", "userid=" + userId);
+                    throw new ResourceNotFoundException("invalid.userId", "userId=" + userId);
                 });
     }
 

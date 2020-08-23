@@ -55,7 +55,7 @@ public class AuthController {
         // check if email address verify or not
         UserDto userDto = authService.getUserByEmail(userLogin.getEmail());
         if (!userDto.getEmailVerificationStatus()) {
-            String errorMsg = MessageFormat.format("email={0} userid={1}", userDto.getEmail(), userDto.getUserId());
+            String errorMsg = MessageFormat.format("email={0} userId={1}", userDto.getEmail(), userDto.getUserId());
             throw new EmailNotVerifiedException("email.not.verified", errorMsg);
         }
         // authenticate user

@@ -116,14 +116,14 @@ public class ItemServiceImpl implements ItemService {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return userRepo.findByUserId(userId)
                 .orElseThrow(() -> {
-                    throw new ResourceNotFoundException("invalid.userid", "userid=" + userId);
+                    throw new ResourceNotFoundException("invalid.userId", "userId=" + userId);
                 });
     }
 
     private Supplier<RuntimeException> getInvalidIdException(String itemId) {
         return () -> {
-            String errorMsg = MessageFormat.format("itemid={0} userid={1}", itemId, getUserEntity().getUserId());
-            throw new ResourceNotFoundException("invalid.itemid", errorMsg);
+            String errorMsg = MessageFormat.format("itemId={0} userId={1}", itemId, getUserEntity().getUserId());
+            throw new ResourceNotFoundException("invalid.itemId", errorMsg);
         };
     }
 
