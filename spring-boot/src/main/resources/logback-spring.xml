@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <property name="LOG_LOCATION" value="./logs"/>
+    <property name="FILE_NAME" value="app-logs"/>
+
+    <!--log patterns-->
+    <property name="LOG_FILE_PATTERN"
+              value="%X{ReqIP} %X{ReqType} %X{ReqURI} %d %5p --- [%t] %-40.40logger{39} : %m%n"/>
+    <property name="LOG_CONSOLE_PATTERN"
+              value="${CONSOLE_LOG_PATTERN}"/>
+
+    <!-- logs->file -->
+    <appender name="FileLogger" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_LOCATION}/${FILE_NAME}.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${LOG_FILE_PATTERN}</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_LOCATION}/archived/${FILE_NAME}-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>5MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+    <!-- logs-> console-->
+    <appender name="ConsoleLogger" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LOG_CONSOLE_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+
+    <!--log profiles-->
+    <springProfile name="dev">
+        <logger name="com.budget.manager" level="info" additivity="false">
+            <appender-ref ref="ConsoleLogger"/>
+        </logger>
+        <root level="info">
+            <appender-ref ref="ConsoleLogger"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="prod">
+        <logger name="com.budget.manager" level="info" additivity="false">
+            <appender-ref ref="FileLogger"/>
+        </logger>
+        <root level="error">
+            <appender-ref ref="FileLogger"/>
+        </root>
+    </springProfile>
+
+
+</configuration>
